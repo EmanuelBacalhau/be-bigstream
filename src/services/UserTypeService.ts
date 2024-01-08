@@ -9,7 +9,7 @@ class UserTypeService {
   }
 
   async store({ name }: CreateUserTypeInterface) {
-    const existsUserType = await UserTypeRepository.findByName({ name });
+    const existsUserType = await UserTypeRepository.findByIdOrName({ name });
 
     if (existsUserType) throw new MyError('User type already exists', 409);
 

@@ -19,19 +19,10 @@ class UserRepositoryClient {
     });
   }
 
-  async findById({ user_type_id }: GetUserTypeInterface) {
+  async findByIdOrName({ user_type_id, name }: GetUserTypeInterface) {
     const user_type = await prisma.userType.findUnique({
       where: {
-        id: user_type_id
-      }
-    });
-
-    return user_type;
-  }
-
-  async findByName({ name }: CreateUserTypeInterface) {
-    const user_type = await prisma.userType.findUnique({
-      where: {
+        id: user_type_id,
         name
       }
     });
