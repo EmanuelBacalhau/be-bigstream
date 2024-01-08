@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserType {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  users User[]
+
+  @@map("user_types")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  avatar_url   String?
+  first_name   String
+  last_name    String
+  phone        BigInt   @unique
+  email        String   @unique
+  password     String
+  weight       Float
+  height       Float
+  user_type_id String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+
+  objetives    Objetive[]
+  my_exercises MyExercise[]
+
+  userType UserType @relation(fields: [user_type_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("users")
+}
+
+model Objetive {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  users User[]
+
+  @@map("objetives")
+}
+
+model TypeOfTraining {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("types_of_trainings")
+}
+
+model Exercise {
+  id                  String   @id @default(cuid())
+  name                String   @unique
+  git_url             String
+  type_of_training_id String
+  created_at          DateTime @default(now())
+  updated_at          DateTime @default(now()) @updatedAt
+
+  users MyExercise[]
+
+  @@map("exercises")
+}
+
+model DayOfWeek {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  users MyExercise[]
+
+  @@map("days_of_week")
+}
+
+model MyExercise {
+  id             String   @id @default(cuid())
+  series         Int
+  repetitions    Int
+  status         Boolean
+  exercise_id    String
+  user_id        String
+  day_of_week_id String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+
+  exercise  Exercise  @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dayOfWeek DayOfWeek @relation(fields: [day_of_week_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("my_exercises")
+}
