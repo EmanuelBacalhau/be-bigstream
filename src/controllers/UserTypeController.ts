@@ -20,6 +20,18 @@ class UserTypeController {
 
     return res.status(201).end();
   }
+
+  async show(req: Request, res: Response) {
+    const UserTypeSchema = z.object({
+      id: z.string().cuid()
+    });
+
+    const { id } = UserTypeSchema.parse(req.params);
+
+    const userType = await UserTypeService.show({ user_type_id: id });
+
+    return res.status(200).json(userType);
+  }
 }
 
 export default new UserTypeController();
