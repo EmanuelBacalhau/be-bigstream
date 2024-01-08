@@ -29,6 +29,16 @@ class UserRepositoryClient {
     return user_type;
   }
 
+  async findByName({ name }: CreateUserTypeInterface) {
+    const user_type = await prisma.userType.findUnique({
+      where: {
+        name
+      }
+    });
+
+    return user_type;
+  }
+
   async update({ name, user_type_id }: UpdateUserTypeInterface) {
     await prisma.userType.update({
       where: {
