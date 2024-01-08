@@ -5,3 +5,4 @@ export const router = Router();
 
 // UserType
 router.get('/user-types', UserTypeController.index);
+router.post('/user-types', UserTypeController.store);
