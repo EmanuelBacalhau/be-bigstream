@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserTypeService from '../services/UserTypeService';
 import { z } from 'zod';
+import UserTypeRepository from '../repositories/UserTypeRepository';
 
 class UserTypeController {
   async index(req: Request, res: Response) {
@@ -47,6 +48,18 @@ class UserTypeController {
     const { name } = UserTypeSchema.parse(req.body);
 
     await UserTypeService.update({ user_type_id: id, name });
+
+    return res.status(204).end();
+  }
+
+  async delete(req: Request, res: Response) {
+    const UserTypeParams = z.object({
+      id: z.string().cuid('teste')
+    });
+
+    const { id } = UserTypeParams.parse(req.params);
+
+    await UserTypeRepository.delete({ user_type_id: id });
 
     return res.status(204).end();
   }
