@@ -8,3 +8,4 @@ router.get('/user-types', UserTypeController.index);
 router.post('/user-types', UserTypeController.store);
 router.get('/user-types/:id', UserTypeController.show);
 router.patch('/user-types/:id', UserTypeController.update);
+router.delete('/user-types/:id', UserTypeController.delete);
