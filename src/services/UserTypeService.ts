@@ -1,6 +1,7 @@
 import { MyError } from '../errors/MyError';
 import { CreateUserTypeInterface } from '../interfaces/user-type/CreateUserTypeInterface';
 import { GetUserTypeInterface } from '../interfaces/user-type/GetUserTypeInterface';
+import { UpdateUserTypeInterface } from '../interfaces/user-type/UpdateUserTypeInterface';
 import UserTypeRepository from '../repositories/UserTypeRepository';
 
 class UserTypeService {
@@ -23,6 +24,21 @@ class UserTypeService {
     if (!userType) throw new MyError('User type not found', 204);
 
     return userType;
+  }
+
+  async update({ user_type_id, name }: UpdateUserTypeInterface) {
+    const userTypeExists = await UserTypeRepository.findByIdOrName({ user_type_id });
+
+    if (!userTypeExists) throw new MyError('User type not found', 200);
+
+    const nameInUse = await UserTypeRepository.findByIdOrName({ name });
+
+    if (nameInUse) throw new MyError('Is name in use', 409);
+
+    await UserTypeRepository.update({
+      user_type_id,
+      name
+    });
   }
 }
 
