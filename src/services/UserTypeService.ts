@@ -21,7 +21,7 @@ class UserTypeService {
   async show({ user_type_id }: GetUserTypeInterface) {
     const userType = await UserTypeRepository.findByIdOrName({ user_type_id });
 
-    if (!userType) throw new MyError('User type not found', 204);
+    if (!userType) throw new MyError('User type not found', 200);
 
     return userType;
   }
@@ -39,6 +39,14 @@ class UserTypeService {
       user_type_id,
       name
     });
+  }
+
+  async delete({ user_type_id }: GetUserTypeInterface) {
+    const userTypeExists = await UserTypeRepository.findByIdOrName({ user_type_id });
+
+    if (!userTypeExists) throw new MyError('User type not found', 200);
+
+    await UserTypeRepository.delete({ user_type_id });
   }
 }
 
