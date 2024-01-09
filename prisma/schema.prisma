@@ -23,7 +23,7 @@ model User {
   avatar_url   String?
   first_name   String
   last_name    String
-  phone        BigInt   @unique
+  phone        String   @unique
   email        String   @unique
   password     String
   weight       Float
@@ -32,23 +32,11 @@ model User {
   created_at   DateTime @default(now())
   updated_at   DateTime @default(now()) @updatedAt
 
-  objetives    Objetive[]
   my_exercises MyExercise[]
 
   userType UserType @relation(fields: [user_type_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("users")
-}
-
-model Objetive {
-  id         String   @id @default(cuid())
-  name       String   @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-
-  users User[]
-
-  @@map("objetives")
 }
 
 model TypeOfTraining {
