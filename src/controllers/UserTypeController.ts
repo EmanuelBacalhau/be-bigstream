@@ -32,6 +32,24 @@ class UserTypeController {
 
     return res.status(200).json(userType);
   }
+
+  async update(req: Request, res: Response) {
+    const UserTypeParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const UserTypeSchema = z.object({
+      name: z.string().min(1)
+    });
+
+    const { id } = UserTypeParams.parse(req.params);
+
+    const { name } = UserTypeSchema.parse(req.body);
+
+    await UserTypeService.update({ user_type_id: id, name });
+
+    return res.status(204).end();
+  }
 }
 
 export default new UserTypeController();
