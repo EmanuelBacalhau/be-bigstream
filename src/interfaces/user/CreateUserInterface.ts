@@ -2,7 +2,7 @@ export interface CreateUserInterface {
   avatarUrl?: string
   first_name: string
   last_name:  string
-  phone:      number
+  phone:      string
   email:      string
   password:   string
   weight:     number
