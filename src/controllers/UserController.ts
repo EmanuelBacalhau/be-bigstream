@@ -27,6 +27,18 @@ class UserController {
 
     return res.status(201).end();
   }
+
+  async show(req: Request, res: Response) {
+    const UserParams = z.object({
+      id: z.string()
+    });
+
+    const { id } = UserParams.parse(req.params);
+
+    const user = await UserService.show({ user_id: id });
+
+    return res.status(200).json(user);
+  }
 }
 
 export default new UserController();
