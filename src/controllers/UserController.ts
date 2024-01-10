@@ -39,6 +39,31 @@ class UserController {
 
     return res.status(200).json(user);
   }
+
+  async update(req: Request, res: Response) {
+    const UserSchema = z.object({
+      first_name: z.string().min(1).optional(),
+      last_name:  z.string().min(1).optional(),
+      phone:      z.string().min(1).optional(),
+      email:      z.string().email().optional(),
+      password:   z.string().min(8).optional(),
+      weight:     z.number().optional(),
+      height:     z.number().optional(),
+      user_type_id: z.string().cuid().optional()
+    });
+
+    const UserParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const data = UserSchema.parse(req.body);
+
+    const { id } = UserParams.parse(req.params);
+
+    await UserService.update({user_id: id, ...data});
+
+    return res.status(204).end();
+  }
 }
 
 export default new UserController();
