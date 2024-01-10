@@ -1,5 +1,6 @@
 import { MyError } from '../errors/MyError';
 import { CreateUserInterface } from '../interfaces/user/CreateUserInterface';
+import { GetUserInterface } from '../interfaces/user/GetUserInterface';
 import UserRepository from '../repositories/UserRepository';
 import UserTypeRepository from '../repositories/UserTypeRepository';
 
@@ -24,6 +25,14 @@ class UserService {
     if (phoneInUse) throw new MyError('Is phone in use', 409);
 
     await UserRepository.create(data);
+  }
+
+  async show({ user_id }: GetUserInterface) {
+    const user = await UserRepository.findUnique({ user_id });
+
+    if (!user) throw new MyError('User not found', 200);
+
+    return user;
   }
 }
 

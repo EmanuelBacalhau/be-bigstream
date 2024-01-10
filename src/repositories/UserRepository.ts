@@ -30,6 +30,13 @@ class UserRepository {
         id: user_id,
         email,
         phone
+      },
+      include: {
+        userType: {
+          select: {
+            name: true
+          }
+        }
       }
     });
 
