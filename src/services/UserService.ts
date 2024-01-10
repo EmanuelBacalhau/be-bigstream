@@ -26,8 +26,7 @@ class UserService {
 
     if (phoneInUse) throw new MyError('Is phone in use', 409);
 
-    const passwordHash = encryptPassword(data.password);
-    data.password = passwordHash;
+    data.password = encryptPassword(data.password);
 
     await UserRepository.create(data);
   }
