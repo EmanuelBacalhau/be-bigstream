@@ -2,6 +2,7 @@ import { MyError } from '../errors/MyError';
 import { CreateUserInterface } from '../interfaces/user/CreateUserInterface';
 import { GetUserInterface } from '../interfaces/user/GetUserInterface';
 import { UpdateUserInterface } from '../interfaces/user/UpdateUserInterface';
+import { encryptPassword } from '../libs/encryptPassword';
 import UserRepository from '../repositories/UserRepository';
 import UserTypeRepository from '../repositories/UserTypeRepository';
 
@@ -24,6 +25,9 @@ class UserService {
     const phoneInUse = await UserRepository.findUnique({ phone: data.phone });
 
     if (phoneInUse) throw new MyError('Is phone in use', 409);
+
+    const passwordHash = encryptPassword(data.password);
+    data.password = passwordHash;
 
     await UserRepository.create(data);
   }
@@ -53,6 +57,8 @@ class UserService {
     const phoneInUse = data.phone && await UserRepository.findUnique({ phone: data.phone });
 
     if (data.phone && phoneInUse) throw new MyError('Is phone in use', 409);
+
+    data.password && (data.password = encryptPassword(data.password));
 
     await UserRepository.update({user_id, ...data});
   }
