@@ -15,3 +15,4 @@ router.delete('/user-types/:id', UserTypeController.delete);
 router.get('/users', UserController.index);
 router.post('/users', UserController.store);
 router.get('/users/:id', UserController.show);
+router.patch('/users/:id', UserController.update);
