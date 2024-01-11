@@ -35,7 +35,7 @@ class UserController {
 
   async show(req: Request, res: Response) {
     const UserParams = z.object({
-      id: z.string()
+      id: z.string().cuid()
     });
 
     const { id } = UserParams.parse(req.params);
@@ -70,6 +70,18 @@ class UserController {
     if (!verifyRole) throw new MyError('Role type different of ADMIN/CLIENT', 422);
 
     await UserService.update({user_id: id, ...data});
+
+    return res.status(204).end();
+  }
+
+  async delete(req: Request, res: Response) {
+    const UserParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const { id } = UserParams.parse(req.params);
+
+    await UserService.delete({ user_id: id });
 
     return res.status(204).end();
   }

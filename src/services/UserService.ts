@@ -52,6 +52,14 @@ class UserService {
 
     await UserRepository.update({user_id, ...data});
   }
+
+  async delete({ user_id }: GetUserInterface) {
+    const user = await UserRepository.findUnique({ user_id });
+
+    if (!user) throw new MyError('User not found', 404);
+
+    await UserRepository.delete({ user_id });
+  }
 }
 
 export default new UserService();
