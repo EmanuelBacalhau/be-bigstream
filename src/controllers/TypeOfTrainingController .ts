@@ -20,6 +20,18 @@ class TypeOfTrainingController {
 
     return res.status(201).end();
   }
+
+  async show(req: Request, res: Response) {
+    const TypeOfTrainingParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const { id } = TypeOfTrainingParams.parse(req.params);
+
+    const type = await TypeOfTrainingService.show({ type_id: id });
+
+    return res.status(200).json(type);
+  }
 }
 
 export default new TypeOfTrainingController();
