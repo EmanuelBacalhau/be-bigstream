@@ -32,6 +32,24 @@ class TypeOfTrainingController {
 
     return res.status(200).json(type);
   }
+
+  async update(req: Request, res: Response) {
+    const TypeOfTrainingSchema = z.object({
+      name: z.string().min(1)
+    });
+
+    const TypeOfTrainingParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const { name } = TypeOfTrainingSchema.parse(req.body);
+    const { id } = TypeOfTrainingParams.parse(req.params);
+
+    await TypeOfTrainingService.update({ name, type_id: id });
+
+    return res.status(204).end();
+  }
+
 }
 
 export default new TypeOfTrainingController();
