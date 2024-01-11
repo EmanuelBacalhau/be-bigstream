@@ -34,6 +34,14 @@ class TypeOfTrainingService {
 
     await TypeOfTrainingRepository.update({ name, type_id });
   }
+
+  async delete({ type_id }: GetTypeOfTrainingInterface) {
+    const typeExists = await TypeOfTrainingRepository.findUnique({ type_id });
+
+    if (!typeExists) throw new MyError('Type of training not found', 200);
+
+    await TypeOfTrainingRepository.delete({ type_id });
+  }
 }
 
 export default new TypeOfTrainingService();
