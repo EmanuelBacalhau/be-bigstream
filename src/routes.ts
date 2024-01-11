@@ -13,3 +13,4 @@ router.delete('/users/:id', UserController.delete);
 
 // TypeOfTraining
 router.get('/typesOfTraining', TypeOfTrainingController.index);
+router.post('/typesOfTraining', TypeOfTrainingController.store);
