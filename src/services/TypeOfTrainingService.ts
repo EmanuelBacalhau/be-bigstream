@@ -1,3 +1,4 @@
+import { CreateTypeOfTrainingInterface } from '../interfaces/typeOfTraining/CreateTypeOfTrainingInterface';
 import TypeOfTrainingRepository from '../repositories/TypeOfTrainingRepository';
 
 class TypeOfTrainingService {
@@ -5,6 +6,10 @@ class TypeOfTrainingService {
     const types = await TypeOfTrainingRepository.findAll();
 
     return types;
+  }
+
+  async store({ name }: CreateTypeOfTrainingInterface) {
+    await TypeOfTrainingRepository.create({ name });
   }
 }
 
