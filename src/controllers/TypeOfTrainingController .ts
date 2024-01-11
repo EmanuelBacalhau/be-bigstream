@@ -50,6 +50,17 @@ class TypeOfTrainingController {
     return res.status(204).end();
   }
 
+  async delete(req: Request, res: Response) {
+    const TypeOfTrainingParams = z.object({
+      id: z.string().cuid()
+    });
+
+    const { id } = TypeOfTrainingParams.parse(req.params);
+
+    await TypeOfTrainingService.delete({ type_id: id });
+
+    return res.status(200).end();
+  }
 }
 
 export default new TypeOfTrainingController();
