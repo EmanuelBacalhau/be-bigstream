@@ -1,4 +1,6 @@
+import { MyError } from '../errors/MyError';
 import { CreateTypeOfTrainingInterface } from '../interfaces/typeOfTraining/CreateTypeOfTrainingInterface';
+import { GetTypeOfTrainingInterface } from '../interfaces/typeOfTraining/GetTypeOfTrainingInterface';
 import TypeOfTrainingRepository from '../repositories/TypeOfTrainingRepository';
 
 class TypeOfTrainingService {
@@ -10,6 +12,15 @@ class TypeOfTrainingService {
 
   async store({ name }: CreateTypeOfTrainingInterface) {
     await TypeOfTrainingRepository.create({ name });
+  }
+
+
+  async show({ type_id }: GetTypeOfTrainingInterface) {
+    const type = await TypeOfTrainingRepository.findUnique({ type_id });
+
+    if (!type) throw new MyError('Type of training not found', 200);
+
+    return type;
   }
 }
 
