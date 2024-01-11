@@ -7,5 +7,5 @@ export interface CreateUserInterface {
   password:   string
   weight:     number
   height:     number
-  user_type_id: string
+  role?:       string
 }

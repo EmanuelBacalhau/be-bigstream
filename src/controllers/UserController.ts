@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
 import { z } from 'zod';
+import { MyError } from '../errors/MyError';
 
 class UserController {
   async index(req: Request, res: Response) {
@@ -18,10 +19,14 @@ class UserController {
       password:   z.string().min(8),
       weight:     z.number(),
       height:     z.number(),
-      user_type_id: z.string().cuid()
+      role:       z.string().optional().default('CLIENT')
     });
 
     const data = UserSchema.parse(req.body);
+
+    const verifyRole = data.role === 'CLIENT' || data.role === 'ADMIN';
+
+    if (!verifyRole) throw new MyError('Role type different of ADMIN/CLIENT', 422);
 
     await UserService.store(data);
 
@@ -49,7 +54,7 @@ class UserController {
       password:   z.string().min(8).optional(),
       weight:     z.number().optional(),
       height:     z.number().optional(),
-      user_type_id: z.string().cuid().optional()
+      role:       z.string().default('CLIENT').optional()
     });
 
     const UserParams = z.object({
@@ -59,6 +64,10 @@ class UserController {
     const data = UserSchema.parse(req.body);
 
     const { id } = UserParams.parse(req.params);
+
+    const verifyRole = data.role === 'CLIENT' || data.role === 'ADMIN';
+
+    if (!verifyRole) throw new MyError('Role type different of ADMIN/CLIENT', 422);
 
     await UserService.update({user_id: id, ...data});
 

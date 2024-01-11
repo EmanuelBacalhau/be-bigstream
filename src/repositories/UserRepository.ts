@@ -5,15 +5,7 @@ import { prisma } from '../libs/prisma';
 
 class UserRepository {
   async findAll() {
-    const users = await prisma.user.findMany({
-      include: {
-        userType: {
-          select: {
-            name: true
-          }
-        }
-      }
-    });
+    const users = await prisma.user.findMany();
 
     return users;
   }
@@ -30,13 +22,6 @@ class UserRepository {
         id: user_id,
         email,
         phone
-      },
-      include: {
-        userType: {
-          select: {
-            name: true
-          }
-        }
       }
     });
 
