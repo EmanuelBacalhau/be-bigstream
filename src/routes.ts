@@ -16,3 +16,4 @@ router.get('/typesOfTraining', TypeOfTrainingController.index);
 router.post('/typesOfTraining', TypeOfTrainingController.store);
 router.get('/typesOfTraining/:id', TypeOfTrainingController.show);
 router.patch('/typesOfTraining/:id', TypeOfTrainingController.update);
+router.delete('/typesOfTraining/:id', TypeOfTrainingController.delete);
