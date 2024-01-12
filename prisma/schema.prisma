@@ -38,7 +38,7 @@ model TypeOfTraining {
 model Exercise {
   id                  String   @id @default(cuid())
   name                String   @unique
-  git_url             String
+  gif_url             String
   type_of_training_id String
   created_at          DateTime @default(now())
   updated_at          DateTime @default(now()) @updatedAt
