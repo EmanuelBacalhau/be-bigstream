@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import UserController from './controllers/UserController';
 import TypeOfTrainingController from './controllers/TypeOfTrainingController ';
+import ExerciseController from './controllers/ExerciseController';
 
 export const router = Router();
 
@@ -17,3 +18,6 @@ router.post('/typesOfTraining', TypeOfTrainingController.store);
 router.get('/typesOfTraining/:id', TypeOfTrainingController.show);
 router.patch('/typesOfTraining/:id', TypeOfTrainingController.update);
 router.delete('/typesOfTraining/:id', TypeOfTrainingController.delete);
+
+// Exercise
+router.get('/exercises', ExerciseController.index);
